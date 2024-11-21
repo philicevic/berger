@@ -16,3 +16,4 @@ jobs:
         with:
           version: 11.4
           bootstrap: vendor/autoload.php
+          args: test
