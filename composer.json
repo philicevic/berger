@@ -1,0 +1,18 @@
+{
+    "name": "philicevic/berger",
+    "description": "A tool to create round robin tournament matchups using the Berger tables",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Philicevic\\Berger\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Philipp Ehrenberg",
+            "email": "ehrenberg.ph@gmail.com"
+        }
+    ],
+    "require": {}
+}
