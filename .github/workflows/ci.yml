@@ -17,3 +17,4 @@ jobs:
           version: 11.4
           bootstrap: vendor/autoload.php
           args: test
+          php_version: "8.2"
