@@ -38,10 +38,54 @@ foreach ($rounds as $round) {
     
     // format round as array
     $round->toArray();
-    
-    // Will return something like this
-    [
-        
-    ]
 }
+
+// $round->toArray() will return something like this
+[
+    [
+        [
+            'home' => 'A',
+            'away' => 'C',
+            'round' => 1,
+        ],
+        [
+            'home' => 'B',
+            'away' => 'D',
+            'round' => 1,
+        ],
+    ],
+    [
+        [
+            'home' => 'C',
+            'away' => 'B',
+            'round' => 2,
+        ],
+        [
+            'home' => 'D',
+            'away' => 'A',
+            'round' => 2,
+        ],
+    ],
+    [
+        [
+            'home' => 'A',
+            'away' => 'B',
+            'round' => 3,
+        ],
+        [
+            'home' => 'C',
+            'away' => 'D',
+            'round' => 3,
+        ],
+    ],
+]
 ```
+
+### Fixture
+Every fixture has two properties.
+
+```
+$fixture->home
+$fixture->away
+```
+Both contain just the name of the team.
