@@ -7,9 +7,11 @@ This package allows you to generate round robin tournament matchups based on the
 ```
 use Philicevic\Berger\Services\RoundRobin;
 
-
+// this creates 6 rounds where teams play each other twice
 $teams = ['A', 'B', 'C', 'D'];
-$rounds = RoundRobin::makeFromTeams($teams);
+$matchesAgainstEachOther = 2;
+$rounds = RoundRobin::makeFromTeams($teams, $matchesAgainstEachOther);
+
 
 // or use it step by step
 

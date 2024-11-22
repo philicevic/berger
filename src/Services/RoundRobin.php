@@ -10,22 +10,28 @@ class RoundRobin {
 
     private array $rounds = [];
 
-    public function __construct(array $teams = [])
+    private int $matchesAgainstEachOther;
+
+    public function __construct(array $teams = [], int $matchesAgainstEachOther = 1)
     {
+        if ($matchesAgainstEachOther < 1) {
+            throw new \Exception("Value matchesAgainstEachOther is not allowed to be less than 1.");
+        }
         $this->teams = $teams;
+        $this->matchesAgainstEachOther = $matchesAgainstEachOther;
     }
 
-    public static function create(array $teams = []): self
+    public static function create(array $teams = [], int $matchesAgainstEachOther = 1): self
     {
-        return new self($teams);
+        return new self($teams, $matchesAgainstEachOther);
     }
 
     /**
      * @return array<Round>
      */
-    public static function makeFromTeams(array $teams): array
+    public static function makeFromTeams(array $teams, int $matchesAgainstEachOther = 1): array
     {
-        return self::create($teams)->make();
+        return self::create($teams, $matchesAgainstEachOther)->make();
     }
 
     public function setTeams(array $teams): void
@@ -78,6 +84,27 @@ class RoundRobin {
             $round++;
         }
 
+        $this->rounds = $this->multiply($this->rounds, $this->matchesAgainstEachOther);
+
         return $this->rounds;
+    }
+
+    /**
+     * @param array<Round> $rounds
+     * @param int $matchesAgainstEachOther
+     * @return array
+     */
+    private function multiply(array $rounds, int $matchesAgainstEachOther): array
+    {
+        $baseRounds = $rounds;
+
+        for ($i = 1; $i < $matchesAgainstEachOther; $i++) {
+            $newRounds = $baseRounds;
+            foreach ($newRounds as $round) {
+                $rounds[] = $i % 2 ? $round->createReverse(count($rounds) + 1) : $round->duplicate(count($rounds) + 1);
+            }
+        }
+
+        return $rounds;
     }
 }

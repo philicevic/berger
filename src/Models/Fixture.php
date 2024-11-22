@@ -17,4 +17,9 @@ class Fixture
     {
         return $this->home . ' - ' . $this->away;
     }
+
+    public function rematch(): self
+    {
+        return new self($this->away, $this->home);
+    }
 }
