@@ -53,7 +53,7 @@ class RoundRobin {
         $round = 1;
         while ($round <= $rounds) {
             $match = 0;
-            $this->rounds[$round] = new Round();
+            $this->rounds[$round] = new Round($round);
             while (count($this->rounds[$round]->fixtures) < $matchesPerRound) {
                 // Only add fixture if both teams are real
                 if ($this->teams[$match] && $this->teams[$rotationCount - $match - 1]) {
