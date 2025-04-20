@@ -22,4 +22,16 @@ class Fixture
     {
         return new self($this->away, $this->home);
     }
+
+    public function getTeams(): array
+    {
+        return [$this->home, $this->away];
+    }
+
+    public function swapTeams(): void
+    {
+        $home = $this->away;
+        $this->away = $this->home;
+        $this->home = $home;
+    }
 }

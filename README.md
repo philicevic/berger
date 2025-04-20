@@ -91,3 +91,15 @@ $fixture->home
 $fixture->away
 ```
 Both contain just the name of the team.
+
+You could also access the teams via the `getTeams` method.
+```
+// returns ["Team A", "Team B"]
+$fixture->getTeams()
+```
+
+If you want to swap the places of the teams for a fixture you can also do that.
+
+```
+$fixture->swapTeams()
+```

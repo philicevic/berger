@@ -44,6 +44,12 @@ class RoundRobin {
      */
     public function make(): array
     {
+        // Prepare home/away tracker
+        $homeAway = [];
+        foreach ($this->teams as $team) {
+            $homeAway[$team] = [];
+        }
+
         $teamCount = count($this->teams);
         $rounds = $teamCount % 2 ? $teamCount : $teamCount - 1;
         $matchesPerRound = $teamCount % 2 ? ($teamCount-1)/2 : $teamCount/2;
@@ -67,12 +73,29 @@ class RoundRobin {
                     if ($this->teams[$match] == $this->teams[$rotationCount - $match - 1]) {
                         // alter home and away games for the fixed team
                         $fixture = $round % 2 ? new Fixture($this->teams[$match], $fixedTeam) : new Fixture($fixedTeam, $this->teams[$match]);
-
                     }
                     else {
                         $fixture = new Fixture($this->teams[$match], $this->teams[$rotationCount - $match - 1]);
                     }
+
+                    [$team1, $team2] = $fixture->getTeams();
+                    $last1 = end($homeAway[$team1]) ?: '';
+                    $last2 = end($homeAway[$team2]) ?: '';
+                    $homeCount1 = array_count_values($homeAway[$team1])['H'] ?? 0;
+                    $homeCount2 = array_count_values($homeAway[$team2])['H'] ?? 0;
+
+                    // Swap teams if away team was also away last game and home team also home
+                    // or if away team has less home games than home team
+                    // This keeps home games balanced
+                    if (($last1 === 'H' && $last2 !== 'H') || $homeCount2 < $homeCount1) {
+                        $fixture->swapTeams();
+                    }
+
                     $this->rounds[$round]->addFixture($fixture);
+
+                    // remember home or away game for teams
+                    $homeAway[$fixture->home][] = 'H';
+                    $homeAway[$fixture->away][] = 'A';
                 }
 
                 $match++;
